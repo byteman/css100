@@ -1,0 +1,6 @@
+Makefile
+tmpobj/
+lib*.so.*
+*.o
+*.pro.user*
+*.sqlite3
