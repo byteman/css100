@@ -1,0 +1,51 @@
+#!/bin/sh
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:Extlib/lib/x86
+
+
+#Usage: yate [options] [commands ...]
+#   -h, --help     Display help message (this one) and exit
+#   -V, --version  Display program version and exit
+#   -v             Verbose debugging (you can use more than once)
+#   -q             Quieter debugging (you can use more than once)
+#   -d             Daemonify, suppress output unless logged
+#   -s             Supervised, restart if crashes or locks up
+#   -r             Enable rotation of log file (needs -s and -l)
+#   -p filename    Write PID to file
+#   -l filename    Log to file
+#   -n configname  Use specified configuration name (css100)
+#   -e pathname    Path to shared files directory (/usr/local/share/yate)
+#   -c pathname    Path to conf files directory (/usr/local/etc/yate)
+#   -u pathname    Path to user files directory (/home/byteman/.yate)
+#   -m pathname    Path to modules directory (/usr/local/lib/yate)
+#   -x relpath     Relative path to extra modules directory (can be repeated)
+#   -w directory   Change working directory
+#   -N nodename    Set the name of this node in a cluster
+#   -C             Enable core dumps if possible
+#   -F             Increase the maximum file handle to compiled value
+#   -t             Truncate log file, don't append to it
+#   -D[options]    Special debugging options
+#     a            Abort if bugs are encountered
+#     m            Attempt to debug mutex deadlocks
+#     d            Disable locking debugging and safety features
+#     l            Try to keep module symbols local
+#     c            Call dlclose() until it gets an error
+#     u            Do not unload modules on exit, just finalize
+#     i            Reinitialize after 1st initialization
+#     x            Exit immediately after initialization
+#     w            Delay creation of 1st worker thread
+#     o            Colorize output using ANSI codes
+#     s            Abort on bugs even during shutdown
+#     t            Timestamp debugging messages relative to program start
+#     e            Timestamp debugging messages based on EPOCH (1-1-1970 GMT)
+#     f            Timestamp debugging in GMT format YYYYMMDDhhmmss.uuuuuu
+#     z            Timestamp debugging in local timezone YYYYMMDDhhmmss.uuuuuu
+
+CUR_PATH=$PWD/Target
+SHARED_FILES_PATH=$CUR_PATH/shared
+CONF_FILES_PATH=$CUR_PATH/etc
+USER_FILES_PATH=$CUR_PATH/usr
+MODULES_FILES_PATH=$CUR_PATH/lib
+
+
+./css100/css100 -e $SHARED_FILES_PATH -c $CONF_FILES_PATH -u $USER_FILES_PATH -m $MODULES_FILES_PATH -vvvvv
+
