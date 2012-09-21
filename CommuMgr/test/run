@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export LD_LIBRARY_PATH=../../Target/lib:../../Extlib/lib/x86
+./test -e . -c . -u . -m . -vvvvv
