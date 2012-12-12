@@ -1,0 +1,40 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DatabaseModule - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP25A.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /I "../../Core" /I "../../Inc" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "DATABASEMODULE_EXPORTS" /Fp"Release/DatabaseModule.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"E:\BusinessProject\power-Project\design\MYPowerClient\DatabaseModule\CDbManager.cpp"
+"E:\BusinessProject\power-Project\design\MYPowerClient\DatabaseModule\CppSQLite3.cpp"
+"E:\BusinessProject\power-Project\design\MYPowerClient\DatabaseModule\DatabaseModuleImpl.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP25A.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP25B.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Core.lib SQLITE3.lib /nologo /dll /incremental:no /pdb:"Release/DatabaseModule.pdb" /machine:I386 /out:"../../binR/DatabaseModule.dll" /implib:"../../bin/DatabaseModule.lib" /libpath:"../../bin" 
+".\Release\CDbManager.obj"
+".\Release\CppSQLite3.obj"
+".\Release\DatabaseModuleImpl.obj"
+"\BusinessProject\power-Project\design\MYPowerClient\binR\Core.lib"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP25B.tmp"
+<h3>Output Window</h3>
+Compiling...
+CDbManager.cpp
+CppSQLite3.cpp
+DatabaseModuleImpl.cpp
+Linking...
+   Creating library ../../bin/DatabaseModule.lib and object ../../bin/DatabaseModule.exp
+
+
+
+<h3>Results</h3>
+DatabaseModule.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
