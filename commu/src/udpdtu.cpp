@@ -53,10 +53,14 @@ void    UdpDtu::service()
             {
                     SocketAddress sender;
                     int n = udp_socket.receiveFrom((unsigned char*)&recv_buffer, sizeof(recv_buffer), sender);
+                    if(n > 0)
+                        Notify(recv_buffer,n);
+#if 0
                     for(int i = 0; i < n; i++)
                     {
                         data_queue.push (recv_buffer[i]);
                     }
+#endif
             }
             catch (Poco::Exception& exc)
             {

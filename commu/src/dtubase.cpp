@@ -3,11 +3,19 @@
 DtuBase::DtuBase()
 {
      total_tx_bytes = total_rx_bytes = 0;
+     m_obj = NULL;
 }
 
 DtuBase::~DtuBase()
 {
 
+}
+void    DtuBase::Notify(unsigned char *buffer,size_t len)
+{
+    if(m_obj)
+    {
+        m_obj->OnDataRecived (buffer,len);
+    }
 }
 int     DtuBase::SendBuffer(unsigned char *buffer,size_t len)
 {

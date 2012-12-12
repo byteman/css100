@@ -6,6 +6,8 @@
 #include <glog/logging.h>
 #include <yatengine.h>
 #include <Poco/SingletonHolder.h>
+#include <ctype.h>
+#include <stdio.h>
 #include "bythread.h"
 #include "termcommu.h"
 #include "udpdtu.h"
@@ -14,6 +16,7 @@ using namespace TelEngine;
 
 
 static Poco::Timestamp lastDateTime,sendInfoTime;
+static Poco::FastMutex _mutex;
 
 TermCommu::TermCommu()
 {
@@ -24,6 +27,7 @@ bool TermCommu::start(long timeout_ms)
     dtu_dev = new UdpDtu();
     if(NULL==dtu_dev) return false;
     if(false == dtu_dev->start (timeout_ms)) return false;
+
     //ByThread::start (timeout_ms);
 }
 TermCommu& TermCommu::GetInstance()
@@ -31,29 +35,70 @@ TermCommu& TermCommu::GetInstance()
     static Poco::SingletonHolder<TermCommu> sh;
     return *sh.get ();
 }
-void TermCommu::ReceiveData(void)
-{
 
+size_t  TermCommu::CheckMessage(int type)
+{
+    Poco::FastMutex::ScopedLock lock(_mutex);
+
+    if(type == 1)
+        return m_msg_que.size();
+    else if(type == 2)
+        return m_height_msg_que.size();
+    else if(type == 3)
+        return m_ws_msg_que.size();
+    return 0;
 }
-bool TermCommu::GetMessage(CTX_Message& msg)
+int  TermCommu::GetMessage(CTX_Message& msg,int type, int timeout_ms)
 {
-    if(dtu_dev == NULL) return false;
+    //fprintf(stderr,"msg num = %d\n",m_recv_worker->m_msg_que.size());
+    Poco::FastMutex::ScopedLock lock(_mutex);
 
-    size_t data_size = dtu_dev->GetInBuffSize ();
-    if(data_size > 0)
+    if(type == 1)
     {
-        dtu_dev->RecvBuffer (data_array,data_size);
+        if(m_msg_que.size() > 0 )
+        {
+            msg = m_msg_que.front();
+            m_msg_que.pop();
+            return 1;
+        }else
+        {
+            return 0;
+        }
+
+    }else if(type == 2)
+    {
+        if(m_height_msg_que.size() > 0 )
+        {
+            msg = m_height_msg_que.front();
+            m_height_msg_que.pop();
+            return 1;
+        }else
+           return 0;
+    }else if(type == 3)
+    {
+        if(m_ws_msg_que.size() > 0 )
+        {
+            msg = m_ws_msg_que.front();
+            m_ws_msg_que.pop();
+            return 1;
+        }else
+           return 0;
     }
+    return 0;
 
-    return true;
-}
-void TermCommu::SendMessage(std::string msgText)
-{
 
 }
-bool TermCommu::CheckMessage()
+int  TermCommu::SendMessage(CTX_Message& msg)
 {
-    return false;
+    return SendMessage(msg.context);
+}
+int  TermCommu::SendMessage(std::string& msg)
+{
+    if(dtu_dev)
+    {
+        return dtu_dev->SendBuffer ((unsigned char*)msg.c_str (),msg.length ());
+    }
+    return 0;
 }
 int  TermCommu::GetReceivedCount()
 {
@@ -216,7 +261,123 @@ void      TermCommu::WatchNetWork(int local_id,int &master_id, bool &AddState)
     }
 
 }
-void TermCommu::service(void)
+
+
+/*分析接收到的数据*/
+void TermCommu::ParseRecvData(char c)
+{
+    static int work_site_count=0;
+    int type = 0;
+
+    if( (c == '%') || (c=='(') || (c=='$'))
+    {
+        m_pos = 0;
+        m_start_flag = true;
+    }
+    else if( m_start_flag && c=='#')
+    {
+        if(m_pos == 38)
+        {
+            type = 1;
+
+        }
+    }
+    else if( m_start_flag && c=='*')
+    {
+        if(m_pos == 11)
+        {
+            type = 2;
+        }
+    }
+    else if( m_start_flag && c==')')
+    {
+        type = 3;
+    }
+    if(c=='*')
+    {
+        work_site_count++;
+        if(work_site_count >= 3)
+        {
+            m_allow_send=false;
+            m_upload_stamp.update ();
+        }
+    }
+    else
+    {
+        work_site_count = 0;
+    }
+    if( ( m_start_flag ) && (m_pos < MAX_LEN) )
+        m_tmp[m_pos++]=c;
+
+    if(type > 0){
+        if((m_pos>=1) && (m_pos < MAX_LEN))
+        {
+            m_tmp[m_pos-1] = 0;
+
+            CTX_Message msg;
+            msg.context = std::string(m_tmp+1);
+            msg.wType   = type;
+            if(type == 1)
+            {
+                Poco::FastMutex::ScopedLock lock(_mutex);
+                m_signal = 5;
+                m_receive_msg_count++;
+                if(m_msg_que.size () < 1000)
+                    m_msg_que.push(msg);
+                if(m_msg_que.size() > 10)
+                    fprintf(stderr,"m_msg_que push data size=%d\n",m_msg_que.size());
+
+            }
+            else if(type == 2)
+            {
+                Poco::FastMutex::ScopedLock lock(_mutex);
+                 if(m_height_msg_que.size () < 10)
+                    m_height_msg_que.push(msg);
+
+                fprintf(stderr,"recv height msg %s\n",msg.context.c_str());
+                if(m_height_msg_que.size() > 10)
+                    fprintf(stderr,"m_height_msg_que push data size=%d\n",m_height_msg_que.size());
+            }
+            else if(type == 3) // worksite
+            {
+                Poco::FastMutex::ScopedLock lock(_mutex);
+                if(m_ws_msg_que.size () < 10)
+                    m_ws_msg_que.push(msg);
+                m_allow_send=true;
+                if(m_ws_msg_que.size() > 10)
+                    fprintf(stderr,"m_ws_msg_que push data size=%d\n",m_ws_msg_que.size());
+            }
+            m_start_flag = false;
+
+        }
+
+    }
+
+
+}
+
+bool checkValid(char c)
+{
+    return isprint (c);
+}
+
+void TermCommu::ParseData(void)
 {
 
+}
+void TermCommu::OnDataRecived(unsigned char *buffer,size_t len)
+{
+
+    if(len > 0)
+    {
+        for(size_t i = 0; i < len; i++)
+        {
+            char c = buffer[i];
+            if(checkValid(c)){
+               ParseRecvData(c);
+            }else{
+                fprintf(stderr,"***********************Invalid char 0x%x\n",c);
+            }
+        }
+    }
 }
