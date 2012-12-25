@@ -1,20 +1,19 @@
 #include <cstdio>
-#include "acquire.h"
 #include <Poco/Thread.h>
-
+#include "acquire.h"
 class AcqireTest:public CollectorNotify
 {
 public:
-    void notify(TAdParam* ad_param, TRunParam* run_param)
+
+    void notify(TRunParam* param)
     {
-        printf("angle_ad=%0.2f\n",ad_param->ad_horizontal_arm_angle);
-        printf("angle_value=%0.2f\n",run_param->horizontal_arm_angle);
+        printf("weight=%0.2f\n",param->dg_weight);
     }
 };
 int main()
 {
     AcqireTest test;
-    Collector::get ().start ("/dev/ttyUSB0","/dev/ttyUSB1");
+    Collector::get ().start ();
     Collector::get ().addObserver (&test);
 
     while(1)

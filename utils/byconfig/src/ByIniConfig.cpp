@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <limits.h>
 
-#include "iniFile.h"
+#include "ByIniConfig.h"
 
 
 typedef unsigned int GHANDLE;
@@ -340,9 +340,14 @@ TIniFile::TIniFile(string FileName)
 {
     m_FileName = FileName;
 }
-void TIniFile::Open(string FileName)
+bool TIniFile::Open(string FileName)
 {
     m_FileName = FileName;
+    return true;
+}
+bool TIniFile::Close()
+{
+	return true;
 }
 TIniFile::~TIniFile()
 {
@@ -408,11 +413,11 @@ bool   TIniFile::SectionExists(const string Section)
 
 }
 
-void   TIniFile::WriteFloat(const string Section, const string Ident, double Value,int dot_cont)
+bool   TIniFile::WriteFloat(const string Section, const string Ident, double Value,int dot_cont)
 {
     char buf[32] = {0,};
     if(m_FileName == "")
-             return;
+        return false;
     switch(dot_cont)
     {
         case 0:
@@ -440,22 +445,25 @@ void   TIniFile::WriteFloat(const string Section, const string Ident, double Val
             break;
     }
     SetValueToEtcFile(m_FileName.c_str(),Section.c_str(),Ident.c_str(),buf);
+    return true;
 }
 
-void   TIniFile::WriteInteger(const string Section, const string Ident, int Value)
+bool   TIniFile::WriteInteger(const string Section, const string Ident, int Value)
 {
     char buf[32] = {0,};
     if(m_FileName == "")
-         return;
+         return false;
     snprintf(buf,32,"%d",Value);
     SetValueToEtcFile(m_FileName.c_str(),Section.c_str(),Ident.c_str(),buf);
+    return true;
 }
 
-void   TIniFile::WriteString(const string Section, const string Ident, const string Value)
+bool   TIniFile::WriteString(const string Section, const string Ident, const string Value)
 {
     if(m_FileName == "")
-         return;
+         return false;
     SetValueToEtcFile(m_FileName.c_str(),Section.c_str(),Ident.c_str(),(char*)Value.c_str());
+    return true;
 }
 
 bool   TIniFile::ValueExists(const string Section, const string Ident)
@@ -463,13 +471,15 @@ bool   TIniFile::ValueExists(const string Section, const string Ident)
 
 }
 
-void   TIniFile::WriteBool(const string Section, const string Ident, bool Value)
+bool   TIniFile::WriteBool(const string Section, const string Ident, bool Value)
 {
 		char buf[16] = {0,};
 		if(m_FileName == "")
-			 return;
+             return false;
 		snprintf(buf,16,"%d",Value?1:0);
 		SetValueToEtcFile(m_FileName.c_str(),Section.c_str(),Ident.c_str(),buf);
+
+        return true;
 }
 bool   TIniFile::ReadBool(const string Section, const string Ident, bool Default)
 {
