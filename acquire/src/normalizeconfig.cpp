@@ -1,5 +1,6 @@
 #include "normalizeconfig.h"
 #include "ByConfigMgr.h"
+#include <cstdio>
 #include <map>
 #define PATH_CONFIG        "calbirate.db"
 #define SECTION_HEIGHT    "tbl_height"
@@ -32,8 +33,6 @@ TNormalizeConfig::TNormalizeConfig()
 }
 bool TNormalizeConfig::load(TCalibrateParam param[],int size)
 {
-
-
     loadParam(CAL_DG_HEIGHT,&param[CAL_DG_HEIGHT]);
     loadParam(CAL_POSITON,&param[CAL_POSITON]);
     loadParam(CAL_DG_WEIGHT,&param[CAL_DG_WEIGHT]);
@@ -41,68 +40,6 @@ bool TNormalizeConfig::load(TCalibrateParam param[],int size)
     loadParam(CAL_DG_WEIGHT3,&param[CAL_DG_WEIGHT3]);
     loadParam(CAL_MOTIVE_ARM_ANGLE,&param[CAL_MOTIVE_ARM_ANGLE]);
     loadParam(CAL_HOR_ARM_ANGLE,&param[CAL_HOR_ARM_ANGLE]);
-#if 0
-    param[CAL_DG_HEIGHT].calibrate_type = CAL_DG_HEIGHT;
-    param[CAL_DG_HEIGHT].calibrate_enable        = config.ReadBool (SECTION_HEIGHT,KEY_ENABLE,false);
-    param[CAL_DG_HEIGHT].calibrate_point.ad_zero = config.ReadInteger (SECTION_HEIGHT,KEY_AD_ZERO,0);
-    param[CAL_DG_HEIGHT].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_HEIGHT,KEY_AD_CALIB,0);
-    param[CAL_DG_HEIGHT].calibrate_point.value_zero = config.ReadInteger (SECTION_HEIGHT,KEY_VALUE_ZERO,0);
-    param[CAL_DG_HEIGHT].calibrate_point.value_calib_point = config.ReadInteger (SECTION_HEIGHT,KEY_VALUE_CALIB,0);
-    param[CAL_DG_HEIGHT].calibrate_k = config.ReadFloat (SECTION_HEIGHT,KEY_K,1);
-
-
-    param[CAL_POSITON].calibrate_type = CAL_POSITON;
-    param[CAL_POSITON].calibrate_enable        = config.ReadBool (SECTION_POSTION,KEY_ENABLE,false);
-    param[CAL_POSITON].calibrate_point.ad_zero = config.ReadInteger (SECTION_POSTION,KEY_AD_ZERO,0);
-    param[CAL_POSITON].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_POSTION,KEY_AD_CALIB,0);
-    param[CAL_POSITON].calibrate_point.value_zero = config.ReadInteger (SECTION_POSTION,KEY_VALUE_ZERO,0);
-    param[CAL_POSITON].calibrate_point.value_calib_point = config.ReadInteger (SECTION_POSTION,KEY_VALUE_CALIB,0);
-    param[CAL_POSITON].calibrate_k = config.ReadFloat (SECTION_POSTION,KEY_K,1);
-
-
-    param[CAL_DG_WEIGHT].calibrate_type = CAL_DG_WEIGHT;
-    param[CAL_DG_WEIGHT].calibrate_enable        = config.ReadBool (SECTION_WEGIHT,KEY_ENABLE,false);
-    param[CAL_DG_WEIGHT].calibrate_point.ad_zero = config.ReadInteger (SECTION_WEGIHT,KEY_AD_ZERO,0);
-    param[CAL_DG_WEIGHT].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_WEGIHT,KEY_AD_CALIB,0);
-    param[CAL_DG_WEIGHT].calibrate_point.value_zero = config.ReadInteger (SECTION_WEGIHT,KEY_VALUE_ZERO,0);
-    param[CAL_DG_WEIGHT].calibrate_point.value_calib_point = config.ReadInteger (SECTION_WEGIHT,KEY_VALUE_CALIB,0);
-    param[CAL_DG_WEIGHT].calibrate_k = config.ReadFloat (SECTION_WEGIHT,KEY_K,1);
-
-
-    param[CAL_DG_WEIGHT2].calibrate_type = CAL_DG_WEIGHT2;
-    param[CAL_DG_WEIGHT2].calibrate_enable        = config.ReadBool (SECTION_WEGIHT2,KEY_ENABLE,false);
-    param[CAL_DG_WEIGHT2].calibrate_point.ad_zero = config.ReadInteger (SECTION_WEGIHT2,KEY_AD_ZERO,0);
-    param[CAL_DG_WEIGHT2].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_WEGIHT2,KEY_AD_CALIB,0);
-    param[CAL_DG_WEIGHT2].calibrate_point.value_zero = config.ReadInteger (SECTION_WEGIHT2,KEY_VALUE_ZERO,0);
-    param[CAL_DG_WEIGHT2].calibrate_point.value_calib_point = config.ReadInteger (SECTION_WEGIHT2,KEY_VALUE_CALIB,0);
-    param[CAL_DG_WEIGHT2].calibrate_k = config.ReadFloat (SECTION_WEGIHT2,KEY_K,1);
-
-
-    param[CAL_DG_WEIGHT3].calibrate_type = CAL_DG_WEIGHT3;
-    param[CAL_DG_WEIGHT3].calibrate_enable        = config.ReadBool (SECTION_WEGIHT3,KEY_ENABLE,false);
-    param[CAL_DG_WEIGHT3].calibrate_point.ad_zero = config.ReadInteger (SECTION_WEGIHT3,KEY_AD_ZERO,0);
-    param[CAL_DG_WEIGHT3].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_WEGIHT3,KEY_AD_CALIB,0);
-    param[CAL_DG_WEIGHT3].calibrate_point.value_zero = config.ReadInteger (SECTION_WEGIHT3,KEY_VALUE_ZERO,0);
-    param[CAL_DG_WEIGHT3].calibrate_point.value_calib_point = config.ReadInteger (SECTION_WEGIHT3,KEY_VALUE_CALIB,0);
-    param[CAL_DG_WEIGHT3].calibrate_k = config.ReadFloat (SECTION_WEGIHT3,KEY_K,1);
-
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_type = CAL_MOTIVE_ARM_ANGLE;
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_enable        = config.ReadBool (SECTION_UP_ANGLE,KEY_ENABLE,false);
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_point.ad_zero = config.ReadInteger (SECTION_UP_ANGLE,KEY_AD_ZERO,0);
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_UP_ANGLE,KEY_AD_CALIB,0);
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_point.value_zero = config.ReadInteger (SECTION_UP_ANGLE,KEY_VALUE_ZERO,0);
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_point.value_calib_point = config.ReadInteger (SECTION_UP_ANGLE,KEY_VALUE_CALIB,0);
-    param[CAL_MOTIVE_ARM_ANGLE].calibrate_k = config.ReadFloat (SECTION_UP_ANGLE,KEY_K,1);
-
-    param[CAL_HOR_ARM_ANGLE].calibrate_type = CAL_HOR_ARM_ANGLE;
-    param[CAL_HOR_ARM_ANGLE].calibrate_enable        = config.ReadBool (SECTION_ANGLE,KEY_ENABLE,false);
-    param[CAL_HOR_ARM_ANGLE].calibrate_point.ad_zero = config.ReadInteger (SECTION_ANGLE,KEY_AD_ZERO,0);
-    param[CAL_HOR_ARM_ANGLE].calibrate_point.ad_calib_point = config.ReadInteger (SECTION_ANGLE,KEY_AD_CALIB,0);
-    param[CAL_HOR_ARM_ANGLE].calibrate_point.value_zero = config.ReadInteger (SECTION_ANGLE,KEY_VALUE_ZERO,0);
-    param[CAL_HOR_ARM_ANGLE].calibrate_point.value_calib_point = config.ReadInteger (SECTION_ANGLE,KEY_VALUE_CALIB,0);
-    param[CAL_HOR_ARM_ANGLE].calibrate_k = config.ReadFloat (SECTION_ANGLE,KEY_K,1);
-#endif
-
     return true;
 }
 bool TNormalizeConfig::save(TCalibrateParam param[],int size)
@@ -144,6 +81,7 @@ bool TNormalizeConfig::loadParam(EnumCalibType type,TCalibrateParam* val)
     val->calibrate_point.value_zero = config.ReadInteger (section,KEY_VALUE_ZERO,0);
     val->calibrate_point.value_calib_point = config.ReadInteger (section,KEY_VALUE_CALIB,0);
     val->calibrate_k = config.ReadFloat (section,KEY_K,1);
+    printf("calibrate_k=%0.2f\n",val->calibrate_k);
     config.Close ();
     return true;
 }

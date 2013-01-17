@@ -24,7 +24,7 @@ public:
     virtual void run();
 
 private:
-
+    void calc_rt_value(unsigned char data[],size_t len);
     ADConvertNotify *m_observer;
 
 

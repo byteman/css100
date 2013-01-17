@@ -11,6 +11,7 @@ Normalizer::Normalizer()
     //fprintf(stderr,"x=%0.2f y=%0.2f\n",g_angle_x,g_angle_y);
 
     */
+    m_config.load (m_CalParam);
 }
 
 void Normalizer::calcAngle(int ad_angle)
@@ -108,7 +109,7 @@ void Normalizer::calcOther(TAdParam  *ad_other)
     {
         k = m_CalParam[CAL_DG_WEIGHT3].calibrate_k;
     }
-
+    printf("weight_k=%0.2f\n",k);
     tmp_dg_weight=(ad_weight-z)/k;
 /////////////////////////////////////////////////////
     m_rtParam.dg_weight = tmp_dg_weight<0?0:tmp_dg_weight;

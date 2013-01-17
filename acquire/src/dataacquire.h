@@ -28,8 +28,8 @@ public:
     int  calibrateZero(EnumCalibType type, double value);
     int  calibrateValue(EnumCalibType type,double value);
     bool calibrateSave(EnumCalibType type);
-    ADConvert   m_adc;
-    //VirtualAdc  m_adc;
+    //ADConvert   m_adc;
+    VirtualAdc  m_adc;
     Normalizer  m_normalizer;
 
 private:

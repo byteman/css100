@@ -1,7 +1,7 @@
 #include <Poco/SingletonHolder.h>
 #include "acquire.h"
 #include "dataacquire.h"
-
+#include "acquiremgr.h"
 Collector::Collector()
 {
 
@@ -13,6 +13,7 @@ Collector& Collector::get()
 }
 bool Collector::start()
 {
+    if(AcquireMgr::get ().start ()==false) return false;
     return CDataAcquire::get ().start();
 }
 

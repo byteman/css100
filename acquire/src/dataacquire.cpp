@@ -30,7 +30,7 @@ CDataAcquire& CDataAcquire::get()
 }
 void CDataAcquire::onNotify(int type,TAdParam* ad)
 {
-    #if 0
+    #if 1
     m_normalizer.calc (type,ad);
     if(m_observer)
     {

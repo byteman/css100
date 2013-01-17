@@ -1,0 +1,2 @@
+export LD_LIBRARY_PATH=../../utils/serialport/linux/lib/x86
+./acquire

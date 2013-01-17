@@ -13,7 +13,10 @@ public:
 int main()
 {
     AcqireTest test;
-    Collector::get ().start ();
+    if(Collector::get ().start ())
+    {
+        printf("start ok\n");
+    }
     Collector::get ().addObserver (&test);
 
     while(1)

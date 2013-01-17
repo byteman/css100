@@ -15,7 +15,10 @@ SOURCES += \
     ../../utils/byconfig/src/ByConfig.cpp \
     ../../utils/byconfig/src/ByIniConfig.cpp \
     ../../utils/byconfig/src/CppSQLite3.cpp \
-    ../src/virtualadc.cpp
+    ../src/virtualadc.cpp \
+    ../src/netutils.cpp \
+    ../src/acquiremgr.cpp \
+    ../src/bythread.cpp
 
 UTILS_DIR += ../../utils
 INCLUDEPATH += ../include
@@ -23,6 +26,7 @@ INCLUDEPATH += ../../common/include
 INCLUDEPATH += $$UTILS_DIR/serialport/include
 INCLUDEPATH += $$UTILS_DIR/byconfig/include
 LIBS+=-lbySerialPort -lrt -lPocoFoundation -lsqlite3
+LIBS+=-lPocoNet
 OBJECTS_DIR += ./obj
 
 linux-arm-g++ {
@@ -42,4 +46,5 @@ HEADERS += \
     ../src/adc.h \
     ../src/normalizeconfig.h \
     ../../common/include/css100.h \
-    ../src/virtualadc.h
+    ../src/virtualadc.h \
+    ../src/acquiremgr.h
