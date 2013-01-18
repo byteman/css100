@@ -4,6 +4,7 @@
 #include "acquire.h"
 #include "normalizeconfig.h"
 #include "css100.h"
+
 class Normalizer
 {
 public:

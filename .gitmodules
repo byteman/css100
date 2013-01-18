@@ -1,0 +1,3 @@
+[submodule "utils/serialport"]
+	path = utils/serialport
+	url = git@github.com:byteman/BySerialPort.git
