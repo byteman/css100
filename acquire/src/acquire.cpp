@@ -2,6 +2,7 @@
 #include "acquire.h"
 #include "dataacquire.h"
 #include "acquiremgr.h"
+#include <assert.h>
 Collector::Collector()
 {
 
@@ -11,10 +12,13 @@ Collector& Collector::get()
     static Poco::SingletonHolder<Collector> sh;
     return *sh.get();
 }
-bool Collector::start()
+bool Collector::start(TCraneBaseInfo* info,unsigned int sizeofInfo)
 {
+    assert(info);
+    assert(sizeofInfo == sizeof(TCraneBaseInfo));
+
     if(AcquireMgr::get ().start ()==false) return false;
-    return CDataAcquire::get ().start();
+    return CDataAcquire::get ().start (info);
 }
 
 bool Collector::stop()

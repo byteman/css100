@@ -1,4 +1,4 @@
-#include <cstdio>
+﻿#include <cstdio>
 #include <vector>
 #include <Poco/Runnable.h>
 #include <Poco/ThreadPool.h>
@@ -38,11 +38,11 @@ void CDataAcquire::onNotify(int type,TAdParam* ad)
     }
     #endif
 }
-TCraneBaseInfo info;
-bool CDataAcquire::start()
-{
 
-    if(!m_normalizer.initParam (&info))
+bool CDataAcquire::start(TCraneBaseInfo *info)
+{
+    if(info==NULL) return false;
+    if(!m_normalizer.initParam (info))
     {
         printf("m_normalizer init failed\n");
         return false;

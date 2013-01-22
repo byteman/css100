@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include "css100.h"
 struct TCalibratePoint{
     int ad_zero;
     int ad_calib_point;
@@ -105,13 +105,18 @@ struct CollectorNotify
 {
     virtual void notify(TRunParam* param) = 0;
 };
-
+typedef struct tag_CraneInfo{
+    bool    dynmaic;
+    double  long_arm;
+}TCraneInfo;
 struct Collector
 {
     Collector();
     static Collector& get();
-
-    bool start();
+/*
+为了防止其他模块传入的TCraneBaseInfo的大小和内部使用的不一致
+*/
+    bool start(TCraneBaseInfo* info,unsigned int sizeofInfo);
 
     int  calibrateZero(EnumCalibType type, double value);
     int  calibrateValue(EnumCalibType type,double value);

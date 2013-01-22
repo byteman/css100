@@ -1,4 +1,4 @@
-TEMPLATE = app
+TEMPLATE = lib
 CONFIG += console
 CONFIG -= qt
 
@@ -6,7 +6,6 @@ SOURCES += \
     ../src/filter.cpp \
     ../src/dataacquire.cpp \
     ../src/acquire.cpp \
-    ../test/test.cpp \
     ../src/adc.cpp \
     ../src/normalizeconfig.cpp \
     ../src/normalizer.cpp \
@@ -20,7 +19,8 @@ SOURCES += \
     ../src/acquiremgr.cpp \
     ../src/bythread.cpp
 
-UTILS_DIR += ../../utils
+OUTPUT+= ../../target
+UTILS_DIR+=../../utils
 INCLUDEPATH += ../include
 INCLUDEPATH += ../../common/include
 INCLUDEPATH += $$UTILS_DIR/serialport/include
@@ -31,12 +31,14 @@ OBJECTS_DIR += ./obj
 
 linux-arm-g++ {
     message(g++ = linux-arm-g++ compile)
-    LIBS += -L$$UTILS_DIR/serialport/linux/lib/arm
+    LIBS += -L$$OUTPUT/lib/arm
+    DESTDIR += $$OUTPUT/lib/arm
 }
 
 linux-g++ {
     message(g++ = linux-g++)
-    LIBS += -L$$UTILS_DIR/serialport/linux/lib/x86
+    LIBS += -L$$OUTPUT/lib/x86
+    DESTDIR += $$OUTPUT/lib/x86
 }
 QMAKE_CXX += -g
 HEADERS += \

@@ -2,29 +2,31 @@
 #define CSS100_H
 #include <iostream>
 /*!
-Ëş»ú»ù´¡²ÎÊı
+å¡”æœºåŸºç¡€å‚æ•°
 */
 struct TCraneBaseInfo{
-    std::string Serial;     //Ëş»ú³ö³§ÉèÖÃµÄÉè±¸ĞòÁĞºÅ
-    double   Height;        //Ëş»ú¸ß¶È
-    double   X;             //Ëş»úx×ø±ê
-    double   Y;             //Ëş»úy×ø±ê
-    double   LongArmLength; //´ó±Û³¤¶È
-    double   ShortArmLenght; //¶Ì±Û³¤¶È
-    double   Rs;             //×îĞ¡·ù¶È
-    bool     Dyna;           //ÊÇ·ñÊÇ¶¯±ÛÊ½
-    double   DLong;          //¶¯±ÛÍ¶Ó°
-    double   DHeight;        //¶¯±Û¸ß¶È+µõËş¸ß¶È
-    double   HeatHeight;     //ËşÃ±¸ß¶È
-    double   L1;             //¶¯±ÛµÄ×î´ó½Ç¶È85¶È×óÓÒ
-    double   L2;             //¶¯±ÛµÄ×îĞ¡½Ç¶È15¶È
-    double   a0;             //´ó±Û¸ù²¿½Âµãµ½Ëş»ú»Ø×ªÖĞĞÄµÄ¾àÀë£¬¿ÉÕı»ò¸º»ò0
-    double   C2;             //µõµã³¤¶È
-    double   CAng;           //¹Ì¶¨¼Ğ½Ç
-    double   DLine;          //À­Éş³¤¶È
+    std::string Serial;     //å¡”æœºå‡ºå‚è®¾ç½®çš„è®¾å¤‡åºåˆ—å·
+    double   Height;        //å¡”æœºé«˜åº¦
+    double   X;             //å¡”æœºxåæ ‡
+    double   Y;             //å¡”æœºyåæ ‡
+    double   LongArmLength; //å¤§è‡‚é•¿åº¦
+    double   ShortArmLenght; //çŸ­è‡‚é•¿åº¦
+    double   Rs;             //æœ€å°å¹…åº¦
+    bool     Dyna;           //æ˜¯å¦æ˜¯åŠ¨è‡‚å¼
+    double   DLong;          //åŠ¨è‡‚æŠ•å½±
+    double   DHeight;        //åŠ¨è‡‚é«˜åº¦+åŠå¡”é«˜åº¦
+    double   HeatHeight;     //å¡”å¸½é«˜åº¦
+    double   L1;             //åŠ¨è‡‚çš„æœ€å¤§è§’åº¦85åº¦å·¦å³
+    double   L2;             //åŠ¨è‡‚çš„æœ€å°è§’åº¦15åº¦
+    double   a0;             //å¤§è‡‚æ ¹éƒ¨é“°ç‚¹åˆ°å¡”æœºå›è½¬ä¸­å¿ƒçš„è·ç¦»ï¼Œå¯æ­£æˆ–è´Ÿæˆ–0
+    double   C2;             //åŠç‚¹é•¿åº¦
+    double   CAng;           //å›ºå®šå¤¹è§’
+    double   DLine;          //æ‹‰ç»³é•¿åº¦
 };
+
+
 /*!
-±£»¤ÇøÓòĞÅÏ¢
+ä¿æŠ¤åŒºåŸŸä¿¡æ¯
 */
 struct TProtectedArea{
 

@@ -1,6 +1,9 @@
 #include <cstdio>
 #include <Poco/Thread.h>
 #include "acquire.h"
+
+TCraneBaseInfo info;
+
 class AcqireTest:public CollectorNotify
 {
 public:
@@ -13,7 +16,10 @@ public:
 int main()
 {
     AcqireTest test;
-    if(Collector::get ().start ())
+    info.LongArmLength = 100;
+    info.Dyna = false;
+
+    if(Collector::get ().start (&info,sizeof(TCraneBaseInfo)))
     {
         printf("start ok\n");
     }
