@@ -24,7 +24,38 @@ struct TCraneBaseInfo{
     double   DLine;          //拉绳长度
 };
 
+struct TRunParam{
+    TRunParam()
+    {
+        position = 0;
+        dg_height = 0;
+        dg_weight = 0;
+        wind_speed = 0;
+        motive_arm_angle = 0;
+        horizontal_arm_angle = 0;
+        crane_inclined_angle_x = 0;
+        crane_inclined_angle_y = 0;
+        horizontal_arm_inclined_angle_x = 0;
+        horizontal_arm_inclined_angle_y = 0;
+    }
+    double position;    //小车的幅度
+    double dg_height; //吊钩高度
+    double dg_weight; //吊钩重量
+    double wind_speed; //风速
+    double motive_arm_angle; //动臂角度
+    double horizontal_arm_angle; //平臂旋转角度
+    double crane_inclined_angle_x; //塔身X方向倾斜角度
+    double crane_inclined_angle_y; //塔身Y方向倾斜角度
+    double horizontal_arm_inclined_angle_x; //平臂X方向倾斜角度
+    double horizontal_arm_inclined_angle_y; //平臂Y方向倾斜角度
+};
 
+class Crane{
+public:
+    unsigned int   id;
+    TCraneBaseInfo baseInfo;
+    TRunParam      runInfo;
+};
 /*!
 保护区域信息
 */

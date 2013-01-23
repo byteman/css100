@@ -17,7 +17,7 @@ public:
     CDataAcquire();
     static CDataAcquire& get();
 
-    bool start(TCraneBaseInfo *info);
+    bool start(Crane *self);
     bool stop();
     bool pause(bool yes);
     void onNotify(int type,TAdParam* ad);

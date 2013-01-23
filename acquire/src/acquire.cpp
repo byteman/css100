@@ -12,13 +12,13 @@ Collector& Collector::get()
     static Poco::SingletonHolder<Collector> sh;
     return *sh.get();
 }
-bool Collector::start(TCraneBaseInfo* info,unsigned int sizeofInfo)
+bool Collector::start(Crane* self,unsigned int size)
 {
-    assert(info);
-    assert(sizeofInfo == sizeof(TCraneBaseInfo));
+    assert(self);
+    assert(size == sizeof(Crane));
 
     if(AcquireMgr::get ().start ()==false) return false;
-    return CDataAcquire::get ().start (info);
+    return CDataAcquire::get ().start (self);
 }
 
 bool Collector::stop()

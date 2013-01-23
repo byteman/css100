@@ -9,7 +9,7 @@ class Normalizer
 {
 public:
     Normalizer();
-    bool initParam(TCraneBaseInfo* baseInfo);
+    bool initParam(Crane* self);
     bool saveParam(EnumCalibType type,TCalibrateParam* val);
     bool loadParam(EnumCalibType type,TCalibrateParam* val);
     bool test(TCraneBaseInfo* baseInfo);
@@ -22,7 +22,9 @@ public:
 private:
     void calcAngle(int ad_angle);
     void calcOther(TAdParam  *ad_other);
+    Crane* self_crane;
     TCraneBaseInfo* m_baseInfo;
+
 };
 
 #endif // CALIBRATER_H

@@ -2,8 +2,9 @@
 #include <cstdio>
 #include <cstring>
 #include "normalizer.h"
-
-Normalizer::Normalizer()
+#include <assert.h>
+Normalizer::Normalizer():
+    self_crane(NULL)
 {
     /*
 
@@ -31,10 +32,12 @@ void Normalizer::calcAngle(int ad_angle)
     m_rtParam.horizontal_arm_angle = crane_angle;
 
 }
-bool Normalizer::initParam(TCraneBaseInfo* baseInfo)
+bool Normalizer::initParam(Crane* self)
 {
+    assert(self);
+    self_crane = self;
+    m_baseInfo = &(self->baseInfo);
 
-    m_baseInfo = baseInfo;
     return true;
 }
 bool Normalizer::saveParam(EnumCalibType type,TCalibrateParam* val)

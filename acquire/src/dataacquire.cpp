@@ -39,10 +39,11 @@ void CDataAcquire::onNotify(int type,TAdParam* ad)
     #endif
 }
 
-bool CDataAcquire::start(TCraneBaseInfo *info)
+bool CDataAcquire::start(Crane* self)
 {
-    if(info==NULL) return false;
-    if(!m_normalizer.initParam (info))
+    if(self==NULL) return false;
+
+    if(!m_normalizer.initParam (self))
     {
         printf("m_normalizer init failed\n");
         return false;
